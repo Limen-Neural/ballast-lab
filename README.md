@@ -1,10 +1,10 @@
-# plasticity-lab
+# plascticity-lab
 
 Generic reward-modulated plasticity loops for spiking neural networks.
 
 ## Overview
 
-`plasticity-lab` provides a small, reusable training loop around `neuromod::SpikingNetwork`.
+`plascticity-lab` provides a small, reusable training loop around `neuromod::SpikingNetwork`.
 It is intentionally domain-agnostic:
 
 - Input encoding belongs to `axon-encoder`
@@ -15,7 +15,7 @@ It is intentionally domain-agnostic:
 
 ```rust
 use neuromod::SpikingNetwork;
-use plasticity_lab::{SpikenautTrainer, TrainingConfig, TrainingExample};
+use plascticity_lab::{SpikenautTrainer, TrainingConfig, TrainingExample};
 
 let mut trainer = SpikenautTrainer::new(TrainingConfig::default());
 let mut network = SpikingNetwork::with_dimensions(32, 8, 64);

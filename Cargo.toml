@@ -1,5 +1,5 @@
 [package]
-name = "plasticity-lab"
+name = "plascticity-lab"
 version = "0.1.0"
 edition = "2024"
 description = "Generic reward-modulated plasticity loops for spiking neural networks"
