@@ -1,5 +1,7 @@
 # plasticity-lab
 
+[![License: MIT OR Apache-2.0](https://img.shields.io/badge/License-MIT%20OR%20Apache--2.0-blue.svg)](https://opensource.org/licenses/MIT)
+
 Generic reward-modulated plasticity loops for spiking neural networks.
 
 ## Overview
@@ -78,4 +80,9 @@ println!("processed={}, avg_reward={}", summary.steps_processed, summary.avg_rew
 
 ## License
 
-GPL-3.0
+Licensed under either of
+
+* Apache License, Version 2.0 ([LICENSE-APACHE-2.0](LICENSE-APACHE-2.0) or http://www.apache.org/licenses/LICENSE-2.0)
+* MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
+
+at your option.

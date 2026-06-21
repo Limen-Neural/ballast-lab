@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: MIT OR Apache-2.0
+
 use crate::config::TrainingConfig;
 use neuromod::{NeuroModulators, SpikingNetwork, StepError};
 use thiserror::Error;
