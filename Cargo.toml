@@ -3,6 +3,7 @@ name = "plasticity-lab"
 version = "0.1.0"
 edition = "2024"
 description = "Generic reward-modulated plasticity loops for spiking neural networks"
+license = "MIT OR Apache-2.0"
 
 [dependencies]
 serde = { version = "1.0", features = ["derive"] }
@@ -12,9 +13,9 @@ thiserror = "1.0"
 rand = "0.8"
 
 # Git dependencies
-neuromod = { git = "https://github.com/Limen-Neural/neuromod" }
-limbic-critic = { git = "https://github.com/Limen-Neural/limbic-critic", optional = true }
-axon-encoder = { git = "https://github.com/Limen-Neural/axon-encoder", optional = true }
+neuromod = { git = "https://github.com/Limen-Neural/neuromod", rev = "58f622d0da1af49d515e3f4c778524e063099296" }
+limbic-critic = { git = "https://github.com/Limen-Neural/limbic-critic", rev = "65a033ec9878a5a4b852b35d7fbaeb830bb919a3", optional = true }
+axon-encoder = { git = "https://github.com/Limen-Neural/axon-encoder", rev = "3cf0e7edef06e932e0f3a1cf751b5a52037f5ef9", optional = true }
 
 [features]
 default = []
