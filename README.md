@@ -23,7 +23,6 @@ This crate provides generic reward-modulated plasticity loops for spiking neural
 - Checkpointing and model serialization
 
 ### Does Not Own
-- Typos in package naming (fixed here)
 - Project-specific trainer names (`SpikenautTrainer`)
 - Domain-specific training logic (mining, trading, etc.)
 - Differentiable or online distillation and teacher-student knowledge transfer
@@ -44,7 +43,6 @@ This crate provides generic reward-modulated plasticity loops for spiking neural
 ### Forbidden Dependencies
 - Domain-specific training logic
 - Project-specific naming conventions
-- Typos in package names
 
 (See issues #2, #3, #6 for full planning context and migration notes.)
 
