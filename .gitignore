@@ -4,3 +4,10 @@
 *.swp
 *.swo
 *~
+
+# AI/IDE tool directories
+.codex/
+.kilo/
+.mimocode/
+.cursor/
+.vscode/
