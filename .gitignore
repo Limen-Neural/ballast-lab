@@ -11,3 +11,6 @@
 .mimocode/
 .cursor/
 .vscode/
+
+# Coverage output
+coverage/

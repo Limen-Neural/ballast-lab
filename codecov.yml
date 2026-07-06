@@ -1,5 +1,5 @@
 codecov:
-  require_ci_to_pass: yes
+  require_ci_to_pass: true
 
 coverage:
   precision: 2
@@ -22,9 +22,9 @@ comment:
   require_changes: false
 
 ignore:
-  - "examples/"
-  - "tests/"
-  - "benches/"
+  - "examples/**/*"
+  - "tests/**/*"
+  - "benches/**/*"
   - "**/*.md"
   - "LICENSE-*"
-  - ".github/"
+  - ".github/**/*"

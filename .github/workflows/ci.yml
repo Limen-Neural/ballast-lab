@@ -28,6 +28,7 @@ jobs:
             ~/.cargo/git
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-
 
       - name: Check formatting
         run: cargo fmt --check
@@ -37,9 +38,6 @@ jobs:
 
       - name: Build
         run: cargo build --all-features
-
-      - name: Test
-        run: cargo test --all-features
 
       - name: Cache cargo-tarpaulin
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
