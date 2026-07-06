@@ -1,0 +1,17 @@
+---
+version: "2"
+
+exclude_paths:
+  - ".codex/**"
+  - ".kilo/**"
+  - ".mimocode/**"
+  - ".cursor/**"
+  - ".vscode/**"
+  - ".github/**"
+  - "examples/**"
+  - "tests/**"
+  - "benches/**"
+  - "docs/**"
+  - "**/*.md"
+  - "LICENSE-*"
+  - "Cargo.lock"
