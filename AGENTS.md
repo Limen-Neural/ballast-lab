@@ -25,12 +25,12 @@ Single Rust crate; part of the Limen-Neural ecosystem.
 - Test: `cargo test --all-features`
 - Lint: `cargo clippy --all-targets --all-features -- -D warnings`
 - Format: `cargo fmt --check`
-- Coverage: `cargo tarpaulin --all-features --all-targets --out xml`
+- Coverage: `cargo tarpaulin --all-features --all-targets --out xml --output-dir coverage`
 
 ## Code style
 
 - Rust 2024 edition
-- `cargo fmt` and `cargo clippy` should pass before committing (exceptions require explicit justification in the PR)
+- `cargo fmt` and `cargo clippy` must pass before committing
 - No `unsafe` code — Codacy flags it via static analysis
 - Prefer `thiserror` for error types
 - Use `tracing` for logging, not `println!`

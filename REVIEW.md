@@ -9,12 +9,12 @@ PR review standards for `plasticity-lab`. Applied by both automated bots and hum
 - [ ] `cargo fmt --check` — no formatting issues
 - [ ] `cargo clippy --all-targets --all-features -- -D warnings` — no warnings
 - [ ] `cargo test --all-features` — all tests green
-- [ ] `cargo deny check` — license and advisory clean (once #15 lands)
 - [ ] No new `unsafe` blocks
 - [ ] No new dependencies without justification in PR description
 
 ### Should check (warn, don't block)
 
+- [ ] `cargo deny check` — license and advisory clean (pending #15)
 - [ ] Coverage doesn't decrease (Codecov status check)
 - [ ] New public items have rustdoc
 - [ ] Changes to `trainer.rs` include test coverage
