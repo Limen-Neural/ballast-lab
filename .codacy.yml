@@ -15,3 +15,5 @@ exclude_paths:
   - "**/*.md"
   - "LICENSE-*"
   - "Cargo.lock"
+  - "AGENTS.md"
+  - "REVIEW.md"
