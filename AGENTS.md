@@ -33,7 +33,8 @@ Single Rust crate; part of the Limen-Neural ecosystem.
 
 ## Architecture
 
-- `src/trainer.rs` — core training loop (`SpikenautTrainer`, `TrainingConfig`, `run_session`)
+- `src/trainer.rs` — core training loop (`SpikenautTrainer`, `run_session`)
+- `src/config.rs` — configuration (`TrainingConfig`)
 - `src/lib.rs` — public API re-exports
 - This crate owns training loops and plasticity rules only
 - Reward shaping belongs in `limbic-critic`
@@ -55,6 +56,6 @@ Single Rust crate; part of the Limen-Neural ecosystem.
 
 ## Dependencies
 
-- Allowed: `neuromod`, `limbic-critic`, `axon-encoder`, `serde`, `tracing`, `thiserror`, `rand`
+- Allowed: `neuromod`, `limbic-critic`, `axon-encoder`, `serde`, `serde_json`, `tracing`, `thiserror`, `rand`
 - Git deps are pinned to specific revisions (see Cargo.toml)
 - Do not add domain-specific or framework-heavy dependencies
