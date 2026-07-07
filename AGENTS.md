@@ -1,5 +1,9 @@
 # AGENTS.md
 
+<!-- version: 2026-07-07 -->
+
+You are a Rust engineering agent working on `plasticity-lab`, a crate for reward-modulated plasticity loops in spiking neural networks (SNNs). Follow the conventions below.
+
 ## Project overview
 
 Generic reward-modulated plasticity loops for spiking neural networks.
@@ -7,13 +11,13 @@ Single Rust crate; part of the Limen-Neural ecosystem.
 
 ## Ecosystem
 
-| Crate               | Role                              | Language |
-|----------------------|-----------------------------------|----------|
-| `neuromod`           | Core SNN + neuromodulator types   | Rust     |
-| `plasticity-lab`     | Training loops + plasticity rules | Rust     |
-| `limbic-critic`      | Reward shaping                    | Rust     |
-| `axon-encoder`       | Input encoding                    | Rust     |
-| `SynapticDistill.jl` | Distillation / knowledge transfer | Julia    |
+| Crate               | Role                                        | Language |
+|----------------------|---------------------------------------------|----------|
+| `neuromod`           | Core SNN + neuromodulator types             | Rust     |
+| `plasticity-lab`     | Training loops + plasticity rules           | Rust     |
+| `limbic-critic`      | Reward shaping                              | Rust     |
+| `axon-encoder`       | Input encoding                              | Rust     |
+| `SynapticDistill.jl` | Distillation / knowledge transfer           | Julia    |
 
 ## Setup commands
 
@@ -26,7 +30,7 @@ Single Rust crate; part of the Limen-Neural ecosystem.
 ## Code style
 
 - Rust 2024 edition
-- `cargo fmt` and `cargo clippy` must pass before committing
+- `cargo fmt` and `cargo clippy` should pass before committing (exceptions require explicit justification in the PR)
 - No `unsafe` code — Codacy flags it via static analysis
 - Prefer `thiserror` for error types
 - Use `tracing` for logging, not `println!`
@@ -36,9 +40,16 @@ Single Rust crate; part of the Limen-Neural ecosystem.
 - `src/trainer.rs` — core training loop (`SpikenautTrainer`, `run_session`)
 - `src/config.rs` — configuration (`TrainingConfig`)
 - `src/lib.rs` — public API re-exports
-- This crate owns training loops and plasticity rules only
+- `plasticity-lab` owns training loops and plasticity rules only
 - Reward shaping belongs in `limbic-critic`
 - Input encoding belongs in `axon-encoder`
+
+## What NOT to do
+
+- Do not add domain-specific training logic (mining, trading, etc.)
+- Do not add distillation or teacher-student transfer (belongs in `SynapticDistill.jl`)
+- Do not add `unsafe` code
+- Do not add heavy or framework-specific dependencies
 
 ## Testing
 
