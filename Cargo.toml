@@ -12,12 +12,11 @@ tracing = "0.1"
 thiserror = "1.0"
 rand = "0.9"
 
-# Git dependencies (track main until crates are published on crates.io).
-# neuromod main uses norepinephrine (not cortisol); limbic-critic main emits
-# ModulatorVector without a neuromod dependency — see src/bridge.rs.
-neuromod = { git = "https://github.com/Limen-Neural/neuromod", branch = "main" }
-limbic-critic = { git = "https://github.com/Limen-Neural/limbic-critic", branch = "main", optional = true }
-axon-encoder = { git = "https://github.com/Limen-Neural/axon-encoder", branch = "main", optional = true }
+# Git dependencies pinned to revs that expose ModulatorVector (limbic-critic)
+# and norepinephrine NeuroModulators (neuromod). Re-bump intentionally on API drift.
+neuromod = { git = "https://github.com/Limen-Neural/neuromod", rev = "e5744bf44548c6545d67c716d620fcfb6775388f" }
+limbic-critic = { git = "https://github.com/Limen-Neural/limbic-critic", rev = "412be611d12b35d2479b8b2443f09c31ecf8fb10", optional = true }
+axon-encoder = { git = "https://github.com/Limen-Neural/axon-encoder", rev = "a62432bc99e5196fe804777618b1e4cd22c267cd", optional = true }
 
 [features]
 default = []

@@ -5,7 +5,7 @@ version = 4
 [[package]]
 name = "axon-encoder"
 version = "0.4.0"
-source = "git+https://github.com/Limen-Neural/axon-encoder?branch=main#a62432bc99e5196fe804777618b1e4cd22c267cd"
+source = "git+https://github.com/Limen-Neural/axon-encoder?rev=a62432bc99e5196fe804777618b1e4cd22c267cd#a62432bc99e5196fe804777618b1e4cd22c267cd"
 dependencies = [
  "rand 0.10.2",
 ]
@@ -75,7 +75,7 @@ checksum = "a7743783ea728ef5c31194c6590797eed286449b4a4e87d626d8a51f0a94e732"
 [[package]]
 name = "limbic-critic"
 version = "0.2.0"
-source = "git+https://github.com/Limen-Neural/limbic-critic?branch=main#412be611d12b35d2479b8b2443f09c31ecf8fb10"
+source = "git+https://github.com/Limen-Neural/limbic-critic?rev=412be611d12b35d2479b8b2443f09c31ecf8fb10#412be611d12b35d2479b8b2443f09c31ecf8fb10"
 
 [[package]]
 name = "memchr"
@@ -86,7 +86,7 @@ checksum = "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98"
 [[package]]
 name = "neuromod"
 version = "0.5.0"
-source = "git+https://github.com/Limen-Neural/neuromod?branch=main#e5744bf44548c6545d67c716d620fcfb6775388f"
+source = "git+https://github.com/Limen-Neural/neuromod?rev=e5744bf44548c6545d67c716d620fcfb6775388f#e5744bf44548c6545d67c716d620fcfb6775388f"
 dependencies = [
  "rand 0.10.2",
  "serde",

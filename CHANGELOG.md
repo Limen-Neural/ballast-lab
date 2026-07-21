@@ -21,7 +21,7 @@ All notable changes to this project are documented in this file.
 
 ### Changed
 
-- Git deps `neuromod`, `limbic-critic`, and `axon-encoder` track `branch = "main"` until crates.io publish
+- Git deps `neuromod`, `limbic-critic`, and `axon-encoder` re-pinned to current main tips (norepinephrine API / standalone `ModulatorVector`); intentional rev bumps only
 - License switched from GPL-3.0 to dual MIT/Apache-2.0 (chore for better adoption and to align with Limen-Neural org standard; see #9 and master neuromod#19)
   - Added `LICENSE-MIT` and `LICENSE-APACHE-2.0`
   - Updated `Cargo.toml` with `license = "MIT OR Apache-2.0"`
