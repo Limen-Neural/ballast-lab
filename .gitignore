@@ -12,7 +12,9 @@
 .cursor/
 .vscode/
 .opencode/
-.devin/
 
 # Coverage output
 coverage/
+
+! This is needed for Devin cloud set up
+.devin/blueprint.yaml
