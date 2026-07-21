@@ -19,7 +19,7 @@ ignore = []
 
 [licenses]
 # Dual-licensed project; allow common permissive licenses used by Rust ecosystem.
-# Also allow first-party Limen-Neural git deps (GPL) and WASI LLVM-exception.
+# First-party GPL git deps are scoped via exceptions below (not global allow).
 confidence-threshold = 0.8
 allow = [
     "MIT",
@@ -31,12 +31,22 @@ allow = [
     "Zlib",
     "Unicode-3.0",
     "Unicode-DFS-2016",
-    # First-party Limen-Neural crates (neuromod, limbic-critic, axon-encoder)
-    "GPL-3.0",
-    "GPL-3.0-or-later",
     # Dual-licensed transitive deps that include Unlicense (e.g. memchr)
     "Unlicense",
 ]
+
+# Scope copyleft to first-party Limen-Neural crates only
+[[licenses.exceptions]]
+crate = "neuromod"
+allow = ["GPL-3.0", "GPL-3.0-or-later"]
+
+[[licenses.exceptions]]
+crate = "limbic-critic"
+allow = ["GPL-3.0", "GPL-3.0-or-later"]
+
+[[licenses.exceptions]]
+crate = "axon-encoder"
+allow = ["GPL-3.0", "GPL-3.0-or-later"]
 
 [bans]
 multiple-versions = "warn"
