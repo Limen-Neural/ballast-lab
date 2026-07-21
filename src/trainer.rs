@@ -147,3 +147,71 @@ impl SpikenautTrainer {
         Ok(summary)
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::config::TrainingConfig;
+
+    fn small_network() -> SpikingNetwork {
+        SpikingNetwork::with_dimensions(4, 2, 8)
+    }
+
+    #[test]
+    fn train_step_with_reward_modulation_succeeds() {
+        let mut trainer = SpikenautTrainer::new(TrainingConfig::default());
+        let mut network = small_network();
+        let stimuli = vec![0.2; 8];
+        let spikes = trainer
+            .train_step(&mut network, &stimuli, 0.5)
+            .expect("positive reward step");
+        let _ = spikes;
+        let _ = trainer
+            .train_step(&mut network, &stimuli, -0.3)
+            .expect("negative reward step");
+    }
+
+    #[test]
+    fn train_step_without_reward_modulation_succeeds() {
+        let mut config = TrainingConfig::default();
+        config.use_reward_modulation = false;
+        let mut trainer = SpikenautTrainer::new(config);
+        let mut network = small_network();
+        let stimuli = vec![0.2; 8];
+        trainer
+            .train_step(&mut network, &stimuli, 0.9)
+            .expect("step with modulation disabled");
+    }
+
+    #[test]
+    fn run_session_empty_batch_errors() {
+        let mut trainer = SpikenautTrainer::new(TrainingConfig::default());
+        let mut network = small_network();
+        let err = trainer
+            .run_session(&mut network, &[])
+            .expect_err("empty batch");
+        assert!(matches!(err, TrainerError::EmptyBatch));
+    }
+
+    #[test]
+    fn run_session_reports_steps_and_avg_reward() {
+        let mut trainer = SpikenautTrainer::new(TrainingConfig::default());
+        let mut network = small_network();
+        let batch = vec![
+            TrainingExample {
+                stimuli: vec![0.25; 8],
+                reward: 0.2,
+            },
+            TrainingExample {
+                stimuli: vec![0.4; 8],
+                reward: -0.1,
+            },
+        ];
+        let summary = trainer
+            .run_session(&mut network, &batch)
+            .expect("session");
+        assert_eq!(summary.steps_processed, 2);
+        assert!((summary.avg_reward - 0.05).abs() < 1e-5);
+        assert_eq!(summary.threshold_drifts.len(), network.neurons.len());
+    }
+}
