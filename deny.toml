@@ -40,6 +40,9 @@ allow = [
 
 [bans]
 multiple-versions = "warn"
+# Must remain "allow": git+rev deps (neuromod, limbic-critic, axon-encoder) are
+# treated as wildcards by cargo-deny. Concrete crates.io ranges already avoid `*`.
+# Revisit when #16 removes git rev pins.
 wildcards = "allow"
 
 [sources]
