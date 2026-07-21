@@ -1,0 +1,35 @@
+# https://docs.devin.ai/onboard-devin/environment-yaml
+# Repo-level environment for Limen-Neural/plasticity-lab (Rust crate).
+# Commands run from the repo root.
+
+initialize: |
+  # System packages used by Cargo's git dependency fetching and common build scripts.
+  sudo apt-get update && sudo apt-get install -y --no-install-recommends \
+    ca-certificates git libssl-dev pkg-config
+  sudo rm -rf /var/lib/apt/lists/*
+
+  # Pin and activate the Rust toolchain used by rust-toolchain.toml and CI.
+  rustup toolchain install 1.97.1
+  rustup default 1.97.1
+  rustup component add --toolchain 1.97.1 rustfmt clippy llvm-tools-preview
+
+maintenance: |
+  # Pre-warm the dependency cache for faster first builds/tests.
+  cargo fetch
+
+knowledge:
+  - name: lint
+    contents: |
+      cargo clippy --all-targets --all-features -- -D warnings
+  - name: test
+    contents: |
+      cargo test --all-features
+  - name: build
+    contents: |
+      cargo build --all-features
+  - name: format
+    contents: |
+      cargo fmt --check
+  - name: docs
+    contents: |
+      RUSTDOCFLAGS="-D warnings" cargo doc --all-features --no-deps

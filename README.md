@@ -54,7 +54,7 @@ See also the ownership boundary with [SynapticDistill.jl](#boundary-with-synapti
 
 ### Prerequisites
 
-- Rust stable toolchain ([rustup](https://rustup.rs/))
+- Rust 1.97.1 stable toolchain ([rustup](https://rustup.rs/))
 - A `Cargo.toml` that can pull git dependencies from GitHub
 
 ### 1. Add the dependency
