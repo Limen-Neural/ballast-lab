@@ -4,6 +4,12 @@ All notable changes to this project are documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- Expanded README user guides: getting started, ecosystem map, feature choice, common patterns, architecture brief, cross-language notes (#14)
+- Crate- and item-level rustdoc for public API (`TrainingConfig`, `SpikenautTrainer`, `TrainingSummary`, etc.)
+- CI step: `cargo doc --no-deps --all-features` with broken-doc-link warnings denied
+
 ### Changed
 
 - License switched from GPL-3.0 to dual MIT/Apache-2.0 (chore for better adoption and to align with Limen-Neural org standard; see #9 and master neuromod#19)

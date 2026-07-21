@@ -4,43 +4,69 @@ use crate::config::TrainingConfig;
 use neuromod::{NeuroModulators, SpikingNetwork, StepError};
 use thiserror::Error;
 
-/// Summary of a training session.
+/// Summary metrics collected over a [`SpikenautTrainer::run_session`] call.
+///
+/// Drifts are relative to network state at the start of the session.
 #[derive(Debug, Default, Clone)]
 pub struct TrainingSummary {
+    /// Number of training examples processed.
     pub steps_processed: usize,
+    /// Total spike events across all steps.
     pub total_spikes: u64,
+    /// Mean reward over the batch.
     pub avg_reward: f32,
+    /// Per-neuron change in firing threshold (final − initial).
     pub threshold_drifts: Vec<f32>,
+    /// Per-neuron, per-channel weight change (final − initial).
     pub weight_drifts: Vec<Vec<f32>>,
+    /// Spike count per neuron over the session.
     pub per_neuron_spikes: Vec<u64>,
 }
 
-/// Input sample for a generic training session.
+/// One input sample for a generic training session: stimuli plus scalar reward.
+///
+/// Encoding and reward shaping live outside this crate (`axon-encoder`,
+/// `limbic-critic`, or application code).
 #[derive(Debug, Clone)]
 pub struct TrainingExample {
+    /// Flat stimulus vector (length must match the network input size).
     pub stimuli: Vec<f32>,
+    /// Scalar reward for this step (positive → dopamine-biased, negative → cortisol-biased).
     pub reward: f32,
 }
 
+/// Errors from batch training sessions.
 #[derive(Debug, Error)]
 pub enum TrainerError {
+    /// Underlying network step failed.
     #[error("network step failed: {0:?}")]
     Step(StepError),
+    /// `run_session` was called with an empty batch.
     #[error("empty training batch")]
     EmptyBatch,
 }
 
-/// The SpikenautTrainer manages the evolution of SNN parameters using reward-modulated STDP.
+/// Reward-modulated training loop over a [`SpikingNetwork`].
+///
+/// Applies scalar rewards to neuromodulators and steps the network. Domain-specific
+/// logic (mining, trading, distillation) does not belong here.
 pub struct SpikenautTrainer {
+    /// Active training configuration.
     pub config: TrainingConfig,
 }
 
 impl SpikenautTrainer {
+    /// Creates a trainer with the given configuration.
     pub fn new(config: TrainingConfig) -> Self {
         Self { config }
     }
 
-    /// Runs a training step using generic stimuli and an externally computed reward.
+    /// Runs one training step with generic stimuli and an externally computed reward.
+    ///
+    /// Positive `reward` increases dopamine and decreases cortisol; negative reward
+    /// does the opposite emphasis. Modulator values are clamped to `[0.0, 1.0]`.
+    ///
+    /// Returns indices of neurons that spiked, or a [`StepError`] from neuromod.
     pub fn train_step(
         &mut self,
         network: &mut SpikingNetwork,
@@ -61,7 +87,12 @@ impl SpikenautTrainer {
         network.step(stimuli, &modulators)
     }
 
-    /// Replays a batch of generic training examples.
+    /// Replays a batch of generic training examples and returns aggregated metrics.
+    ///
+    /// # Errors
+    ///
+    /// - [`TrainerError::EmptyBatch`] if `data` is empty.
+    /// - [`TrainerError::Step`] if any network step fails.
     pub fn run_session(
         &mut self,
         network: &mut SpikingNetwork,
