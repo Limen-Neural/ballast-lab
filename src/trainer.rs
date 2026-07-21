@@ -207,9 +207,7 @@ mod tests {
                 reward: -0.1,
             },
         ];
-        let summary = trainer
-            .run_session(&mut network, &batch)
-            .expect("session");
+        let summary = trainer.run_session(&mut network, &batch).expect("session");
         assert_eq!(summary.steps_processed, 2);
         assert!((summary.avg_reward - 0.05).abs() < 1e-5);
         assert_eq!(summary.threshold_drifts.len(), network.neurons.len());
