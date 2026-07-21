@@ -10,7 +10,7 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 tracing = "0.1"
 thiserror = "1.0"
-rand = "0.8"
+rand = "0.9"
 
 # Git dependencies
 neuromod = { git = "https://github.com/Limen-Neural/neuromod", rev = "58f622d0da1af49d515e3f4c778524e063099296" }
