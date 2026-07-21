@@ -154,12 +154,16 @@ impl SpikenautTrainer {
 
         summary.per_neuron_spikes = vec![0; network.neurons.len()];
         let mut total_reward = 0.0;
+        let mut valid_reward_count = 0;
 
         for example in data {
             let spikes = self
                 .train_step(network, &example.stimuli, example.reward)
                 .map_err(TrainerError::Step)?;
-            total_reward += example.reward;
+            if !example.reward.is_nan() {
+                total_reward += example.reward;
+                valid_reward_count += 1;
+            }
             summary.steps_processed += 1;
 
             summary.total_spikes += spikes.len() as u64;
@@ -170,7 +174,11 @@ impl SpikenautTrainer {
             }
         }
 
-        summary.avg_reward = total_reward / data.len() as f32;
+        summary.avg_reward = if valid_reward_count > 0 {
+            total_reward / valid_reward_count as f32
+        } else {
+            0.0
+        };
 
         let final_thresholds = network.get_thresholds();
         for i in 0..network.neurons.len() {
