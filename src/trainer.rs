@@ -173,8 +173,10 @@ mod tests {
 
     #[test]
     fn train_step_without_reward_modulation_succeeds() {
-        let mut config = TrainingConfig::default();
-        config.use_reward_modulation = false;
+        let config = TrainingConfig {
+            use_reward_modulation: false,
+            ..TrainingConfig::default()
+        };
         let mut trainer = SpikenautTrainer::new(config);
         let mut network = small_network();
         let stimuli = vec![0.2; 8];
