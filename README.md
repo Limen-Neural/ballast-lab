@@ -78,7 +78,7 @@ println!("processed={}, avg_reward={}", summary.steps_processed, summary.avg_rew
 - `run_session` returns a `TrainingSummary` with spike counts and parameter drift metrics.
 - `axon-encoder` and `limbic-critic` are optional integration dependencies under the `integration` feature.
 
-## License
+## License / REUSE
 
 Licensed under either of
 
@@ -86,3 +86,5 @@ Licensed under either of
 * MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
 
 at your option.
+
+This repository follows the [REUSE](https://reuse.software/) specification: SPDX identifiers appear in source headers and bulk path annotations in [`REUSE.toml`](REUSE.toml); canonical license texts live under [`LICENSES/`](LICENSES/).
