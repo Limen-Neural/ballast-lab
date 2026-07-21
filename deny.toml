@@ -1,0 +1,53 @@
+# cargo-deny configuration for plasticity-lab
+# https://embarkstudios.github.io/cargo-deny/
+#
+# Schema notes (cargo-deny 0.18+ / 0.20+):
+# - [advisories] vulnerability/notice lint fields are removed; known vulns always fail.
+#   Use ignore for exceptions. yanked/unmaintained remain configurable.
+# - [licenses] unlicensed/deny/copyleft/default removed; only allowlist applies.
+
+[graph]
+# Match CI: exercise optional integration deps (limbic-critic, axon-encoder)
+all-features = true
+
+[advisories]
+# Unmaintained advisories only fail for direct workspace dependencies
+unmaintained = "workspace"
+# Yanked crates warn (do not fail CI) unless escalated later
+yanked = "warn"
+ignore = []
+
+[licenses]
+# Dual-licensed project; allow common permissive licenses used by Rust ecosystem.
+# Also allow first-party Limen-Neural git deps (GPL) and WASI LLVM-exception.
+confidence-threshold = 0.8
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "BSD-2-Clause",
+    "BSD-3-Clause",
+    "ISC",
+    "Zlib",
+    "Unicode-3.0",
+    "Unicode-DFS-2016",
+    # First-party Limen-Neural crates (neuromod, limbic-critic, axon-encoder)
+    "GPL-3.0",
+    "GPL-3.0-or-later",
+    # Dual-licensed transitive deps that include Unlicense (e.g. memchr)
+    "Unlicense",
+]
+
+[bans]
+multiple-versions = "warn"
+wildcards = "allow"
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]
+allow-git = [
+    "https://github.com/Limen-Neural/neuromod",
+    "https://github.com/Limen-Neural/limbic-critic",
+    "https://github.com/Limen-Neural/axon-encoder",
+]
