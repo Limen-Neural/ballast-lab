@@ -136,16 +136,19 @@ Use `TrainingExample` batches and `run_session` when you have a fixed list of st
 Drive the network yourself when rewards are online or adaptive:
 
 ```rust
-use neuromod::SpikingNetwork;
+use neuromod::{SpikingNetwork, StepError};
 use plasticity_lab::{SpikenautTrainer, TrainingConfig};
 
-let mut trainer = SpikenautTrainer::new(TrainingConfig::default());
-let mut network = SpikingNetwork::with_dimensions(32, 8, 64);
+fn main() -> Result<(), StepError> {
+    let mut trainer = SpikenautTrainer::new(TrainingConfig::default());
+    let mut network = SpikingNetwork::with_dimensions(32, 8, 64);
 
-let stimuli = vec![0.3; 64];
-let reward = 0.15; // from your environment or limbic-critic
-let spikes = trainer.train_step(&mut network, &stimuli, reward)?;
-// spikes: indices of neurons that fired this step
+    let stimuli = vec![0.3; 64];
+    let reward = 0.15; // from your environment or limbic-critic
+    let spikes = trainer.train_step(&mut network, &stimuli, reward)?;
+    println!("spikes this step: {:?}", spikes);
+    Ok(())
+}
 ```
 
 ### Custom rewards (with or without limbic-critic)
