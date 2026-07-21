@@ -31,7 +31,7 @@ pub struct TrainingSummary {
 pub struct TrainingExample {
     /// Flat stimulus vector (length must match the network input size).
     pub stimuli: Vec<f32>,
-    /// Scalar reward for this step (positive → dopamine-biased, negative → cortisol-biased).
+    /// Scalar reward for this step (positive → dopamine-biased, negative → norepinephrine-biased).
     pub reward: f32,
 }
 
@@ -64,9 +64,13 @@ impl SpikenautTrainer {
     /// Runs one training step with generic stimuli and an externally computed reward.
     ///
     /// When [`TrainingConfig::use_reward_modulation`] is `true` (default), positive
-    /// `reward` increases dopamine and decreases cortisol; negative reward does the
-    /// opposite emphasis. Modulator values are clamped to `[0.0, 1.0]`. When the flag
-    /// is `false`, the network steps with its current modulators unchanged.
+    /// `reward` increases dopamine and decreases norepinephrine (stress/arousal);
+    /// negative reward does the opposite emphasis. Modulator values are clamped to
+    /// `[0.0, 1.0]`. When the flag is `false`, the network steps with its current
+    /// modulators unchanged.
+    ///
+    /// Note: neuromod removed `cortisol` from [`NeuroModulators`]; norepinephrine is
+    /// the stress channel used here.
     ///
     /// Returns indices of neurons that spiked, or a [`StepError`] from neuromod.
     pub fn train_step(
@@ -78,12 +82,14 @@ impl SpikenautTrainer {
         let mut modulators: NeuroModulators = network.modulators;
 
         if self.config.use_reward_modulation {
-            // Positive reward shifts toward dopamine; negative toward cortisol.
+            // Positive reward shifts toward dopamine; negative toward norepinephrine (stress).
             if reward > 0.0 {
                 modulators.dopamine = (modulators.dopamine + reward * 0.1).clamp(0.0, 1.0);
-                modulators.cortisol = (modulators.cortisol - reward * 0.05).clamp(0.0, 1.0);
+                modulators.norepinephrine =
+                    (modulators.norepinephrine - reward * 0.05).clamp(0.0, 1.0);
             } else {
-                modulators.cortisol = (modulators.cortisol - reward * 0.2).clamp(0.0, 1.0);
+                modulators.norepinephrine =
+                    (modulators.norepinephrine - reward * 0.2).clamp(0.0, 1.0);
                 modulators.dopamine = (modulators.dopamine + reward * 0.1).clamp(0.0, 1.0);
             }
         }
@@ -152,9 +158,14 @@ impl SpikenautTrainer {
 mod tests {
     use super::*;
     use crate::config::TrainingConfig;
+    use neuromod::NUM_INPUT_CHANNELS;
 
     fn small_network() -> SpikingNetwork {
         SpikingNetwork::with_dimensions(4, 2, 8)
+    }
+
+    fn default_stimuli() -> Vec<f32> {
+        vec![0.25; NUM_INPUT_CHANNELS]
     }
 
     #[test]
@@ -183,6 +194,38 @@ mod tests {
         trainer
             .train_step(&mut network, &stimuli, 0.9)
             .expect("step with modulation disabled");
+    }
+
+    #[test]
+    fn positive_reward_raises_dopamine_lowers_norepinephrine() {
+        let mut network = SpikingNetwork::new();
+        network.modulators.dopamine = 0.5;
+        network.modulators.norepinephrine = 0.5;
+
+        let mut trainer = SpikenautTrainer::new(TrainingConfig::default());
+        trainer
+            .train_step(&mut network, &default_stimuli(), 1.0)
+            .expect("train_step");
+
+        assert!((network.modulators.dopamine - 0.6).abs() < 1e-5);
+        assert!((network.modulators.norepinephrine - 0.45).abs() < 1e-5);
+    }
+
+    #[test]
+    fn negative_reward_raises_norepinephrine_lowers_dopamine() {
+        let mut network = SpikingNetwork::new();
+        network.modulators.dopamine = 0.5;
+        network.modulators.norepinephrine = 0.5;
+
+        let mut trainer = SpikenautTrainer::new(TrainingConfig::default());
+        trainer
+            .train_step(&mut network, &default_stimuli(), -1.0)
+            .expect("train_step");
+
+        // dopamine += reward * 0.1 → 0.5 - 0.1 = 0.4
+        // norepinephrine -= reward * 0.2 → 0.5 - (-0.2) = 0.7
+        assert!((network.modulators.dopamine - 0.4).abs() < 1e-5);
+        assert!((network.modulators.norepinephrine - 0.7).abs() < 1e-5);
     }
 
     #[test]
