@@ -63,8 +63,10 @@ impl SpikenautTrainer {
 
     /// Runs one training step with generic stimuli and an externally computed reward.
     ///
-    /// Positive `reward` increases dopamine and decreases cortisol; negative reward
-    /// does the opposite emphasis. Modulator values are clamped to `[0.0, 1.0]`.
+    /// When [`TrainingConfig::use_reward_modulation`] is `true` (default), positive
+    /// `reward` increases dopamine and decreases cortisol; negative reward does the
+    /// opposite emphasis. Modulator values are clamped to `[0.0, 1.0]`. When the flag
+    /// is `false`, the network steps with its current modulators unchanged.
     ///
     /// Returns indices of neurons that spiked, or a [`StepError`] from neuromod.
     pub fn train_step(
@@ -75,13 +77,15 @@ impl SpikenautTrainer {
     ) -> Result<Vec<usize>, StepError> {
         let mut modulators: NeuroModulators = network.modulators;
 
-        // Positive reward shifts toward dopamine; negative toward cortisol.
-        if reward > 0.0 {
-            modulators.dopamine = (modulators.dopamine + reward * 0.1).clamp(0.0, 1.0);
-            modulators.cortisol = (modulators.cortisol - reward * 0.05).clamp(0.0, 1.0);
-        } else {
-            modulators.cortisol = (modulators.cortisol - reward * 0.2).clamp(0.0, 1.0);
-            modulators.dopamine = (modulators.dopamine + reward * 0.1).clamp(0.0, 1.0);
+        if self.config.use_reward_modulation {
+            // Positive reward shifts toward dopamine; negative toward cortisol.
+            if reward > 0.0 {
+                modulators.dopamine = (modulators.dopamine + reward * 0.1).clamp(0.0, 1.0);
+                modulators.cortisol = (modulators.cortisol - reward * 0.05).clamp(0.0, 1.0);
+            } else {
+                modulators.cortisol = (modulators.cortisol - reward * 0.2).clamp(0.0, 1.0);
+                modulators.dopamine = (modulators.dopamine + reward * 0.1).clamp(0.0, 1.0);
+            }
         }
 
         network.step(stimuli, &modulators)

@@ -178,7 +178,7 @@ let config = TrainingConfig {
 };
 ```
 
-`TrainingConfig::default()` matches the values above. Fields are reserved for homeostasis / plasticity knobs as the loop grows; the public session API today centers on reward-modulated `train_step` / `run_session`.
+`TrainingConfig::default()` matches the values above. Set `use_reward_modulation: false` to step the network without adjusting neuromodulators from the reward (stimuli still apply). Other fields are knobs for homeostasis / plasticity as the loop grows.
 
 ## Architecture brief
 
@@ -195,7 +195,7 @@ This section describes **this crate only**. Network dynamics live in [neuromod](
 ### `train_step`
 
 1. Reads current neuromodulators from the network.
-2. Adjusts dopamine / cortisol from the scalar `reward` (clamped to `[0, 1]`).
+2. If `use_reward_modulation` is `true` (default), adjusts dopamine / cortisol from the scalar `reward` (clamped to `[0, 1]`); otherwise leaves modulators unchanged.
 3. Calls `network.step(stimuli, &modulators)`.
 4. Returns spike indices (`Vec<usize>`) or `StepError`.
 
@@ -233,9 +233,9 @@ This crate provides generic reward-modulated plasticity loops for spiking neural
 - Checkpointing and model serialization
 
 ### Does Not Own
-- Project-specific trainer names (`SpikenautTrainer`)
 - Domain-specific training logic (mining, trading, etc.)
 - Differentiable or online distillation and teacher-student knowledge transfer
+- Additional project-specific trainer type names beyond the public `SpikenautTrainer` API
 
 ### Boundary with SynapticDistill.jl (Linear LIM-25)
 - `plasticity-lab` (Rust): reward-modulated STDP / Hebbian plasticity rules and online low-level weight delta computation.

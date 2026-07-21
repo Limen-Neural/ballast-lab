@@ -10,6 +10,12 @@ All notable changes to this project are documented in this file.
 - Crate- and item-level rustdoc for public API (`TrainingConfig`, `SpikenautTrainer`, `TrainingSummary`, etc.)
 - CI step: `cargo doc --no-deps --all-features` with broken-doc-link warnings denied
 
+### Fixed
+
+- `TrainingConfig::use_reward_modulation` now gates reward-to-neuromodulator updates in `train_step` (was documented but always on)
+- `TrainingConfig` deserializes missing fields via `#[serde(default)]` so older configs without `use_reward_modulation` still load (`true` by default)
+
+
 ### Changed
 
 - License switched from GPL-3.0 to dual MIT/Apache-2.0 (chore for better adoption and to align with Limen-Neural org standard; see #9 and master neuromod#19)
