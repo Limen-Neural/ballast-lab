@@ -9,9 +9,9 @@
 //! # Features
 //!
 //! - **default** — core loop only (`neuromod` + serde/tracing/thiserror/rand).
-//! - **`integration`** — optional deps on `limbic-critic` and `axon-encoder`.
-//!   The trainer API still takes precomputed stimuli and scalar rewards; enable
-//!   this when you want those sister crates resolved in the same build.
+//! - **`integration`** — optional deps on `limbic-critic` and `axon-encoder`,
+//!   plus the [`bridge`] adapter that converts critic
+//!   [`limbic_critic::ModulatorVector`] into [`neuromod::NeuroModulators`].
 //!
 //! # Quick example
 //!
@@ -29,10 +29,27 @@
 //! assert_eq!(summary.steps_processed, 1);
 //! ```
 //!
+//! # Limbic bridge (`integration`)
+//!
+//! ```rust,ignore
+//! use limbic_critic::SimpleCritic;
+//! use plasticity_lab::bridge::{apply_modulator_vector, to_neuromodulators};
+//!
+//! let vector = SimpleCritic::assess(&env);
+//! let _ = apply_modulator_vector(&mut network, &stimuli, &vector);
+//! // or: network.step(&stimuli, &to_neuromodulators(&vector));
+//! ```
+//!
 //! See the crate README for ecosystem map, ownership boundaries, and patterns.
 
 pub mod config;
 pub mod trainer;
 
+#[cfg(feature = "integration")]
+pub mod bridge;
+
 pub use config::TrainingConfig;
 pub use trainer::{SpikenautTrainer, TrainerError, TrainingExample, TrainingSummary};
+
+#[cfg(feature = "integration")]
+pub use bridge::{apply_modulator_vector, from_neuromodulators, to_neuromodulators};
