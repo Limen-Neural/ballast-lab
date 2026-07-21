@@ -6,15 +6,8 @@ use serde::{Deserialize, Serialize};
 ///
 /// Values are serializable (serde) so they can be stored with checkpoints or
 /// experiment configs. Defaults match a light reward-modulated loop; adjust as
-/// homeostasis and plasticity rules expand.
-///
-/// # Fields
-///
-/// - `learning_rate` — step size for plasticity updates.
-/// - `target_spikes_per_step` — target average spike rate for homeostasis.
-/// - `homeostasis_strength` — how strongly activity is pulled toward the target.
-/// - `batch_size` — intended batch size for higher-level training orchestration.
-/// - `use_reward_modulation` — when `true`, rewards influence neuromodulators.
+/// homeostasis and plasticity rules expand. Field docs appear under **Fields**
+/// in rustdoc.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct TrainingConfig {
     /// Step size for plasticity-related updates.
