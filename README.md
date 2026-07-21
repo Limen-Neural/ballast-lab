@@ -155,8 +155,8 @@ fn main() -> Result<(), StepError> {
 
 `plasticity-lab` never computes rewards. Pass any `f32`:
 
-- Positive → dopamine up / cortisol down (clamped)
-- Negative → cortisol up / dopamine adjusted (clamped)
+- Positive → dopamine up / norepinephrine down (clamped)
+- Negative → norepinephrine up / dopamine adjusted (clamped)
 
 Shape rewards in application code or via [`limbic-critic`](https://github.com/Limen-Neural/limbic-critic) when using the `integration` feature.
 
@@ -195,7 +195,7 @@ This section describes **this crate only**. Network dynamics live in [neuromod](
 ### `train_step`
 
 1. Reads current neuromodulators from the network.
-2. If `use_reward_modulation` is `true` (default), adjusts dopamine / cortisol from the scalar `reward` (clamped to `[0, 1]`); otherwise leaves modulators unchanged.
+2. If `use_reward_modulation` is `true` (default), adjusts dopamine / norepinephrine from the scalar `reward` (clamped to `[0, 1]`); otherwise leaves modulators unchanged.
 3. Calls `network.step(stimuli, &modulators)`.
 4. Returns spike indices (`Vec<usize>`) or `StepError`.
 
