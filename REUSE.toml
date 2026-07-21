@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2026 Limen-Neural contributors
+# SPDX-License-Identifier: MIT OR Apache-2.0
+
+version = 1
+
+SPDX-PackageName = "plasticity-lab"
+SPDX-PackageSupplier = "Limen-Neural contributors <https://github.com/Limen-Neural>"
+SPDX-PackageDownloadLocation = "https://github.com/Limen-Neural/plasticity-lab"
+
+# Source code — SPDX-License-Identifier already present in .rs files; aggregate copyright.
+[[annotations]]
+path = ["src/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Limen-Neural contributors"
+SPDX-License-Identifier = "MIT OR Apache-2.0"
+
+# Project docs, manifests, and config
+[[annotations]]
+path = [
+    "**.md",
+    "Cargo.toml",
+    "Cargo.lock",
+    "codecov.yml",
+    "qodana.yaml",
+    ".codacy.yml",
+    ".gitignore",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Limen-Neural contributors"
+SPDX-License-Identifier = "MIT OR Apache-2.0"
+
+# CI / GitHub workflow YAML
+[[annotations]]
+path = [".github/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2026 Limen-Neural contributors"
+SPDX-License-Identifier = "MIT OR Apache-2.0"
+
+# Convenience dual-license texts at repo root (canonical copies live in LICENSES/)
+[[annotations]]
+path = ["LICENSE-MIT"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Limen-Neural contributors"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["LICENSE-APACHE-2.0"]
+precedence = "override"
+SPDX-FileCopyrightText = "2026 Limen-Neural contributors"
+SPDX-License-Identifier = "Apache-2.0"

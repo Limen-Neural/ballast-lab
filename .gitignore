@@ -11,6 +11,8 @@
 .mimocode/
 .cursor/
 .vscode/
+.opencode/
+.devin/
 
 # Coverage output
 coverage/
