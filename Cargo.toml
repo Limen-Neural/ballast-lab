@@ -10,7 +10,7 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 tracing = "0.1"
 thiserror = "2.0"
-rand = "0.9"
+rand = "0.10"
 
 # Git dependencies (track main until crates are published on crates.io).
 # neuromod main uses norepinephrine (not cortisol); limbic-critic main emits
