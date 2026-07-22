@@ -27,6 +27,18 @@ Single Rust crate; part of the Limen-Neural ecosystem.
 - Format: `cargo fmt --check`
 - Coverage: `cargo tarpaulin --all-features --all-targets --out xml --output-dir coverage`
 
+## Toolchain
+
+- Rust 2024 edition, pinned to `1.97.1` in `rust-toolchain.toml`
+- CI uses the same pinned toolchain
+
+## Dev container
+
+- VS Code Dev Container configuration is in `.devcontainer/`
+- Base image: `rust:1.97.1-slim-bookworm`
+- `cargo fetch` runs on container creation
+- Run locally with: `devcontainer up --workspace-folder .`
+
 ## Code style
 
 - Rust 2024 edition
