@@ -5,7 +5,7 @@ version = 4
 [[package]]
 name = "axon-encoder"
 version = "0.4.0"
-source = "git+https://github.com/Limen-Neural/axon-encoder?branch=main#a62432bc99e5196fe804777618b1e4cd22c267cd"
+source = "git+https://github.com/Limen-Neural/axon-encoder?branch=main#2c13ba91d6d7cff2b5d01f6a2e7729d4e495c3af"
 dependencies = [
  "rand",
 ]
