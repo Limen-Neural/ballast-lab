@@ -95,6 +95,8 @@ jobs:
   msrv:
     name: MSRV (build & test)
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -116,8 +118,10 @@ jobs:
           key: ${{ runner.os }}-cargo-msrv-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: ${{ runner.os }}-cargo-msrv-
 
+      # Pinned explicitly (not the default/repo-pinned toolchain) so this job keeps
+      # testing the declared MSRV even if rust-toolchain.toml advances later.
       - name: Build at MSRV
-        run: cargo build --all-features
+        run: cargo +1.97.1 build --locked --all-features
 
       - name: Test at MSRV
-        run: cargo test --all-features
+        run: cargo +1.97.1 test --locked --all-features
